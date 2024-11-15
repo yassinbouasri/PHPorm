@@ -6,12 +6,12 @@ namespace App\controller;
 
 class Home
 {
-    public function index()
+    public function index(): string
     {
         return "Home index";
     }
 
-    public function about()
+    public function about(): string
     {
         return "About page";
     }
