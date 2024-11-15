@@ -2,8 +2,6 @@
 declare(strict_types=1);
 
 
-use App\routes\Router;
-
 error_reporting(E_ALL);
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../infrastructure/helper.php';
