@@ -1,6 +1,8 @@
 <?php
 
-function dd($data) {
+declare(strict_types=1);
+
+function dd(mixed $data=null) {
     // Convert the data into a pretty format
     echo '<!DOCTYPE html>
     <html lang="en">
