@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-function dd(mixed $data=null) {
+function dd(...$data) {
     // Convert the data into a pretty format
     echo '<!DOCTYPE html>
     <html lang="en">
@@ -44,9 +44,11 @@ function dd(mixed $data=null) {
     <body>
         <div class="title">Dump of Data:</div>';
 
-    echo '<pre>';
-    echo htmlentities(print_r($data, true));
-    echo '</pre></body></html>';
+    foreach ($data as $key => $value) {
+        echo '<pre>';
+        echo htmlentities(print_r($value, true));
+        echo '</pre></body></html>';
+    }
 
     die(); // Stop execution
 }

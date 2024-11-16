@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-define('ROOT_DIR',   __DIR__. "/../" );
+const ROOT_DIR = __DIR__ . "/../";
 
 error_reporting(E_ALL);
 require __DIR__ . '/../vendor/autoload.php';
