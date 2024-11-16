@@ -2,9 +2,9 @@
 
 declare (strict_types = 1);
 
-namespace App\controller;
+namespace App\Controllers;
 
-class Home
+class Home extends Controller
 {
     public function index(): string
     {

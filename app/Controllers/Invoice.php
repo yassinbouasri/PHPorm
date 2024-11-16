@@ -2,18 +2,18 @@
 
 declare (strict_types = 1);
 
-namespace App\controller;
+namespace App\Controllers;
 
-class Invoice
+class Invoice extends Controller
 {
     public function index(): string
     {
         return "Invoice index";
     }
 
-    public function create(): string
+    public function create()
     {
-        return '<form action=/invoices/create method="post"> <label>Amount</label> <input type="text" name="amount"> <input type="submit"> </form>';
+        $this->render( "sampleView");
     }
 
     public function store(): void
