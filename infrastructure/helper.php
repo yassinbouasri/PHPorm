@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 function dd(...$data) {
-    // Convert the data into a pretty format
     echo '<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -50,5 +49,5 @@ function dd(...$data) {
         echo '</pre></body></html>';
     }
 
-    die(); // Stop execution
+    die();
 }
