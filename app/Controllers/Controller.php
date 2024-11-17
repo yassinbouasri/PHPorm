@@ -6,25 +6,36 @@ abstract class Controller
 {
     private const string LOCATION = ROOT_DIR . "resources/views/";
 
-    public function render(string $view, array $params = [], bool $haveLayout = false): void
+    public function render(string $view, array $params = [], bool $haveLayout = false)
     {
+
         extract($params);
+        $viewPath = self::LOCATION . $view . ".php";
 
         if (!$haveLayout) {
-            require_once self::LOCATION . $view . ".weave.html";
+            ob_start();
+            include $viewPath;
+
+            echo ob_get_clean();
+            exit();
         }
+        ob_start();
+        include $viewPath;
+        $viewContent = ob_get_clean();
 
-        if ($haveLayout) {
-            $content = file_get_contents(self::LOCATION . $view . ".weave.html");
-            $layout = file_get_contents(self::LOCATION . "layout.html");
-            $lines = explode("\n", $layout);
-            foreach ($lines as $key => $value) {
+        ob_start();
+        $layoutPath = self::LOCATION . "layout.html";
+        include $layoutPath;
+        $layoutContent = ob_get_clean();
 
-                $layout = str_replace("{{content}}", $content, $layout);
+        $lines = explode("\n", $layoutContent);
+        $layout = "";
+        foreach ($lines as $line) {
 
-            }
-            echo $layout;
+            $layout .= str_replace("{{content}}", $viewContent, $line);
+
         }
+        echo $layout;
 
     }
 }

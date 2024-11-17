@@ -13,7 +13,8 @@ class Invoice extends Controller
 
     public function create()
     {
-        $this->render( "sampleView", [],true);
+        $var = "test";
+        $this->render( "sampleView", ["var" => $var], true);
     }
 
     public function store(): void
