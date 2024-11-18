@@ -22,6 +22,13 @@ abstract class Controller
         ob_start();
         include $viewPath;
         $viewContent = ob_get_clean();
+        $contentLines = explode("\n", $viewContent);
+        $blade = "";
+        foreach ($contentLines as $line) {
+            $blade .= str_replace(["{{", "}}"], ["<?php ", " ?>"], $line);
+
+        }
+
 
         ob_start();
         $layoutPath = self::LOCATION . "layout.html";
@@ -32,7 +39,7 @@ abstract class Controller
         $layout = "";
         foreach ($lines as $line) {
 
-            $layout .= str_replace("{{content}}", $viewContent, $line);
+            $layout .= str_replace("{{content}}", $blade, $line);
 
         }
         echo $layout;
