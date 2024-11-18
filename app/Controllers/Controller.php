@@ -8,7 +8,7 @@ abstract class Controller
 {
     private const string LOCATION = ROOT_DIR . "resources/views/";
 
-    public function render(string $view, array $params = [], bool $haveLayout = false): void
+    public function render(string $view, array $params = [], ?string $layoutPath = ""): void
     {
 
         extract($params);
@@ -17,15 +17,18 @@ abstract class Controller
             return;
         }
 
-        if (!$haveLayout) {
+        if (!empty($layoutPath)) {
             $blade = $this->getBlade($viewPath);
             eval("?>".$blade);
             exit();
         }
 
+        if (!file_exists($layoutPath)) {
+            return;
+        }
         $blade = $this->getBlade($viewPath);
         ob_start();
-        $layoutPath = self::LOCATION . "layout.html";
+        $layoutPath = self::LOCATION . $layoutPath;
         include $layoutPath;
         $layoutContent = ob_get_clean();
 

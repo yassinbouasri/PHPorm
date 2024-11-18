@@ -15,7 +15,7 @@ class Invoice extends Controller
     {
         $var = [1,2,3,4];
 
-        $this->render( "sampleView", ["var" => $var], false);
+        $this->render( "sampleView", ["var" => $var], "/layout.html");
     }
 
     public function store(): void
