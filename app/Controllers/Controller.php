@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
 abstract class Controller
 {
     private const string LOCATION = ROOT_DIR . "resources/views/";
 
-    public function render(string $view, array $params = [], bool $haveLayout = false)
+    public function render(string $view, array $params = [], bool $haveLayout = false): void
     {
 
         extract($params);
@@ -42,7 +44,7 @@ abstract class Controller
      * @param string $viewPath
      * @return string
      */
-    public function getBlade(string $viewPath): string
+    private function getBlade(string $viewPath): string
     {
         ob_start();
         include $viewPath;
