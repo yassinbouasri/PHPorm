@@ -6,17 +6,22 @@ abstract class Controller
 {
     private const string LOCATION = ROOT_DIR . "resources/views/";
 
-    public function render(string $view, array $params = [], bool $haveLayout = false): void
+    public function render(string $view, array $params = [], bool $haveLayout = false)
     {
 
         extract($params);
         $viewPath = self::LOCATION . $view . ".php";
+        if (!file_exists($viewPath)) {
+            return;
+        }
+
         if (!$haveLayout) {
-            echo $this->blade($viewPath);
+            $blade = $this->getBlade($viewPath);
+            eval("?>".$blade);
             exit();
         }
 
-
+        $blade = $this->getBlade($viewPath);
         ob_start();
         $layoutPath = self::LOCATION . "layout.html";
         include $layoutPath;
@@ -26,18 +31,18 @@ abstract class Controller
         $layout = "";
         foreach ($lines as $line) {
 
-            $layout .= str_replace("{{content}}", $this->blade($viewPath), $line);
+            $layout .= str_replace("{{content}}", $blade, $line."\n");
 
         }
-        echo $layout;
 
+        eval("?>".$layout);
     }
 
     /**
      * @param string $viewPath
      * @return string
      */
-    public function blade(string $viewPath): string
+    public function getBlade(string $viewPath): string
     {
         ob_start();
         include $viewPath;
@@ -45,8 +50,7 @@ abstract class Controller
         $contentLines = explode("\n", $viewContent);
         $blade = "";
         foreach ($contentLines as $line) {
-            $blade .= str_replace(["{{", "}}"], ["<?php ", " ?>"], $line);
-
+            $blade .= str_replace(["{{", "}}"], ["<?php ", " ?>"], $line . "\n");
         }
         return $blade;
     }
