@@ -5,20 +5,30 @@ declare(strict_types=1);
 namespace App\Config;
 
 use PDO;
+use PDOException;
 
 class Database
 {
     private static ?self $instance = null;
     private static ?PDO $cnn = null;
-    private string $host = 'localhost';
-    private string $user = 'root';
-    private string $password = '';
-    private string $dbname = "";
+    private string $host;
+    private string $user;
+    private string $password;
+    private string $dbname;
 
     public function __construct()
     {
+        $this->host = $_ENV['DB_HOST'];
+        $this->user = $_ENV['DB_USER'];
+        $this->password = $_ENV['DB_PASS'];
+        $this->dbname = $_ENV['DB_NAME'];
         $dsn = "mysql:host=" . $this->host . ";dbname=" . $this->dbname . ";charset=utf8mb4";
-        self::$cnn = new PDO($dsn, $this->user, $this->password);
+        try {
+            self::$cnn = new PDO($dsn, $this->user, $this->password);
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage());
+        }
+
         self::$cnn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     }
@@ -29,31 +39,6 @@ class Database
             self::$instance = new self();
         }
         return self::$instance;
-    }
-
-    public function setHost(string $host): void
-    {
-        $this->host = $host;
-    }
-
-    public function setUser(string $user): void
-    {
-        $this->user = $user;
-    }
-
-    public function setPassword(string $password): void
-    {
-        $this->password = $password;
-    }
-
-    public function setDbname(string $dbname): void
-    {
-        $this->dbname = $dbname;
-    }
-
-    public function getConnection(): PDO
-    {
-        return self::$cnn;
     }
 
     public function __clone(): void
