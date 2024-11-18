@@ -13,9 +13,9 @@ class Invoice extends Controller
 
     public function create()
     {
-        $var = [1,2,3,4];
+        //$var = [1,2,3,4];
 
-        $this->render( "sampleView", ["var" => $var], true);
+        $this->render( "sampleView", [], false);
     }
 
     public function store(): void
